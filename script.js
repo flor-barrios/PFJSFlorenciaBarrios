@@ -67,6 +67,7 @@ function calcularCotizacion() {
   const precioBase = preciosBase[marca][modelo];
 
   let coeficienteEdad = 1;
+
   if (edad >= 18 && edad < 25) {
     coeficienteEdad = 1.5;
   } else if (edad >= 25 && edad < 60) {
@@ -79,8 +80,11 @@ function calcularCotizacion() {
   }
   
   let coeficienteAño = 1;
+
   const añoActual = new Date().getFullYear();
+  
   const antiguedad = añoActual - año;
+
   if (antiguedad >= 0 && antiguedad < 5) {
     coeficienteAño = 2;
   } else if (antiguedad >= 5 && antiguedad < 10) {
