@@ -19,36 +19,48 @@
 
   <div class="contenedor">
     <h1>Encuentra la mejor protección para tu vehículo</h1>
-    <h4>Obtén un seguro de auto que se ajuste a tus necesidades y brinde máxima protección</h4>
+    <h4>Obtén un seguro de auto que se ajuste a tus necesidades y brinde máxima protección</h4>    
 
-    <form>
-      <label for="marca">Marca:</label>
-      <select id="marca" onchange="cargarModelos()">
-        <option value="">Selecciona una marca</option>
-        <option value="Ford">Ford</option>
-        <option value="Chevrolet">Chevrolet</option>
-        <option value="Toyota">Toyota</option>
-        <option value="Honda">Honda</option>
-        <option value="Nissan">Nissan</option>
-      </select>
-      <br/>
+    <div class="row" id="mapaarriba">
+      <div class="col-sm-6">
+        <form>
+          <div class="parte1">
+            <label for="marca">Marca:</label>
+            <select id="marca" onchange="cargarModelos()">
+              <option value="">Selecciona una marca</option>
+              <option value="Ford">Ford</option>
+              <option value="Chevrolet">Chevrolet</option>
+              <option value="Toyota">Toyota</option>
+              <option value="Honda">Honda</option>
+              <option value="Nissan">Nissan</option>
+            </select>
+    
+            <label for="modelo">Modelo:</label>
+            <select id="modelo"></select>
+    
+          </div>
+    
+          <div class="parte2">
+            <label for="año">Año:</label>
+            <input type="number" id="año"/>
+    
+            <label for="edad">Edad:</label>
+            <input type="number" id="edad"/>
+          </div>
+    
+          <div class="parte3">
+            <button type="button" onclick="calcularCotizacion()">Calcular cotización</button>
+          </div>
+    
+        </form>
+    
+        <p id="resultado"></p>            
+      </div>
 
-      <label for="modelo">Modelo:</label>
-      <select id="modelo"></select>
-      <br/>
-
-      <label for="año">Año:</label>
-      <input type="number" id="año"/>
-      <br/>
-
-      <label for="edad">Edad:</label>
-      <input type="number" id="edad"/>
-      <br/>
-
-      <button type="button" onclick="calcularCotizacion()">Calcular cotización</button>
-
-    </form>
-    <p id="resultado"></p>
+      <div class="col-sm-4">
+        <img src="./img/familiaauto.jpg" alt="familia en un auto" class="fotofamilia">
+      </div>
+    </div>
 
   </div>
 
@@ -62,6 +74,7 @@
     </div>
 </footer>
 
-  <script src="./script.js"></script>
+<script src="./script.js"></script>
+
 </body>
 </html>
