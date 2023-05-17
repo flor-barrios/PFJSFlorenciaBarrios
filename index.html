@@ -6,12 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cotizador de seguros</title>
     <link rel="stylesheet" href="./css/bootstrap.css">
+    <link rel="stylesheet" href="./css/estilos.css">
 </head>
 <body>
-  <div id="contenedor">
-    <h1>Cotizador de seguros de autos</h1>
-    <form>
+  <nav class="navbar bg-light">
+    <div class="container-fluid contenedor">
+      <a class="navbar-brand" href="./index.html">
+        <img src="./img/logo-completo.gif" alt="Logo" class="d-inline-block align-text-top">
+      </a>
+    </div>
+  </nav>
 
+  <div class="contenedor">
+    <h1>Encuentra la mejor protección para tu vehículo</h1>
+    <h4>Obtén un seguro de auto que se ajuste a tus necesidades y brinde máxima protección</h4>
+
+    <form>
       <label for="marca">Marca:</label>
       <select id="marca" onchange="cargarModelos()">
         <option value="">Selecciona una marca</option>
@@ -41,6 +51,16 @@
     <p id="resultado"></p>
 
   </div>
+
+  <footer>
+    <div class="contenedor">
+       <a href="index.html" id="logofinal"><img src="./img/logo-letras.gif" height="45" width="45" alt="Cotizador de seguros"></a>
+       <p>
+           FB Cotizador de seguros. 
+           Gracias por elegirnos!
+       </p>
+    </div>
+</footer>
 
   <script src="./script.js"></script>
 </body>
