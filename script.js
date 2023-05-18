@@ -43,6 +43,7 @@ function cargarModelos() {
   const modeloSelect = document.getElementById("modelo");
   modeloSelect.innerHTML = "<option value=''>Selecciona un modelo</option>";
 
+
   for (let i = 0; i < modelos.length; i++) {
     const modelo = modelos[i];
     const option = document.createElement("option");

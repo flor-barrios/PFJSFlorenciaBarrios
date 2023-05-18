@@ -4,7 +4,9 @@
 }
 
 body{
-    background: #f8f9fa;
+    background-color: white;
+    background-image: url(../img/fondo.gif);
+    background-size: cover;
 }
 
 .contenedor{
@@ -21,6 +23,10 @@ nav{
 footer{
     text-align: center;
     box-shadow: 0px -3px 6px #0003;
+    background-color: #f8f9fa;
+    position: absolute;
+    width: 100%;
+    /*bottom: 0; mediaqueri para despues, celu no hace falta*/
 }
 
 form{
@@ -41,12 +47,15 @@ form{
     select{
         border-radius: 12px;
         padding: 5px;
-        width: 50%;
+        width: 25%;
+        margin-bottom: 10px; 
+        border: 2px solid #184656;
+        font-weight: bold;
     }
 
     
     #modelo{
-        width: 50%;
+        width: 25%;
     }
 
     input{
@@ -54,28 +63,27 @@ form{
         padding: 5px; 
         margin-bottom: 10px; 
         border-radius: 12px;
-        border: 2px solid #ebc8bc;
+        border: 2px solid #184656;
         font-weight: bold;
 
         input:hover{
-            background-color:  #ebc8bc;
+            background-color:  #184656;
         }
 
         input ::placeholder{
-            color: #ebc8bc;
+            color: #184656;
             font-size: 14px; 
         }
     }    
 
     button{
         text-decoration: none; 
-        color: #645832; 
-        border: 1px solid #ebc8bc; 
-        background-color: white;
+        color: white; 
+        border: 1px solid #0f2b35; 
+        background-color: #184656;
         border-radius: 10px;
         padding: 0.5em;
         display: flex;
-        float: right;
         text-shadow: none;
         opacity: 0.8;
         transition: all 0.2s;
@@ -88,6 +96,3 @@ form{
 
 }
 
-.fotofamilia{
-    width: 100%;
-}
