@@ -19,11 +19,12 @@
   </nav>
 
   <div class="contenedor">
-    <h1>Encuentra la mejor protección para tu vehículo</h1>
-    <h5>Obtén un seguro de auto que se ajuste a tus necesidades y brinde máxima protección</h5>    
+    <h1>La mejor protección para tu vehículo</h1>
+    <h5>Obtén un seguro de auto que se ajuste a tus necesidades</h5>    
 
     <form>
-      <div class="parte1">
+      <div class="parte1" style="display: block;" id="Marca-Modelo">
+        <h3>Datos del auto</h3>
         <label for="marca">Marca:</label>
         <select id="marca" onchange="cargarModelos()">
           <option value="">Selecciona una marca</option>
@@ -36,25 +37,40 @@
 
         <label for="modelo">Modelo:</label>
         <select id="modelo"></select>
-
       </div>
 
-      <div class="parte2">
+      <div class="parte2" style="display: block;" id="Anio">
         <label for="año">Año:</label>
         <input type="number" id="año"/>
-
-        <label for="edad">Edad:</label>
-        <input type="number" id="edad"/>
       </div>
 
-      <div class="parte3">
+      <div class="parte3" style="display: block;" id="Siguiente">
+        <button type="button" onclick="mostrarDatosPersonales()">Siguiente</button>
+      </div>
+
+      <div class="parte4" id="datos-personales" style="display: none;">
+          <h3>Datos personales</h3>
+          <label for="nombre">Nombre:</label>
+          <input type="text" id="nombre" required>
+      
+          <label for="apellido">Apellido:</label>
+          <input type="text" id="apellido" required>
+      
+          <label for="edad">Edad:</label>
+          <input type="number" id="edad" required>
+      
+          <label for="email">Correo electrónico:</label>
+          <input type="email" id="email" required>
+      </div>
+
+      <div class="parte5" id="cotizar-seguro" style="display: none;">
         <button type="button" onclick="calcularCotizacion()">Calcular cotización</button>
       </div>
 
+      <p id="resultado"></p> 
+
     </form>
-
-    <p id="resultado"></p>  
-
+  
   </div>          
     
   <footer>

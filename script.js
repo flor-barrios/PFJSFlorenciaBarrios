@@ -39,6 +39,14 @@ const preciosBase = {
 
 //Cargar modelos de los autos asociadas a la marca del auto
 function cargarModelos() {
+
+  // Ocultar los contenedores
+  const datosPersonalesContainer = document.getElementById("datos-personales");
+  const cotizarSeguroContainer = document.getElementById("cotizar-seguro");
+  
+  datosPersonalesContainer.style.display = "none";
+  cotizarSeguroContainer.style.display = "none";
+
   const marca = document.getElementById("marca").value;
   const modelos = Object.keys(preciosBase[marca]);
 
@@ -54,6 +62,36 @@ function cargarModelos() {
     option.textContent = modelo;
     modeloSelect.appendChild(option);
   }
+
+}
+
+function mostrarDatosPersonales() {
+  const marca = document.getElementById("marca").value;
+  const modelo = document.getElementById("modelo").value;
+  const año = document.getElementById("año").value;
+
+  // Verificar que los campos de datos del auto estén completos
+  if (!marca || !modelo || !año) {
+    alert("Por favor completa los datos del auto");
+    return;
+  }
+
+  // Obtener las referencias de los contenedores
+  const datosPersonalesContainer = document.getElementById("datos-personales");
+  const cotizarSeguroContainer = document.getElementById("cotizar-seguro");
+
+  // Mostrar los contenedores 
+  datosPersonalesContainer.style.display = "block";
+  cotizarSeguroContainer.style.display = "block";
+
+  //Ocultar datos del auto
+  const datosMM = document.getElementById("Marca-Modelo");
+  const datosAnio = document.getElementById("Anio");
+  const botonSiguiente = document.getElementById("Siguiente");
+
+  datosMM.style.display = "none";
+  datosAnio.style.display = "none";
+  botonSiguiente.style.display = "none";
 }
 
 //Calcular la cotización en base a lo pedido
@@ -62,9 +100,12 @@ function calcularCotizacion() {
   const modelo = document.getElementById("modelo").value;
   const año = document.getElementById("año").value;
   const edad = document.getElementById("edad").value;
+  const nombre = document.getElementById("nombre").value;
+  const apellido = document.getElementById("apellido").value;
+  const email = document.getElementById("email").value;
 
-  //Todos los datos deben ser rellenados
-  if (!marca || !modelo || !año || !edad ) {
+   // Verificar que todos los campos estén completos
+   if (!marca || !modelo || !año || !edad || !nombre || !apellido || !email) {
     alert("Por favor completa todos los campos");
     return;
   }
@@ -108,6 +149,20 @@ function calcularCotizacion() {
   
   //Cotizacion final
   const precioCotizacion = precioBase * coeficienteEdad * coeficienteAño;
+
+ 
+  // Mostrar el resultado de la cotización
   const resultado = document.getElementById("resultado");
-  resultado.textContent = `El precio de la cotización es: ${precioCotizacion}$`;
+  resultado.innerHTML = `
+    <h3>Resultado de la cotización</h3>
+    <p>Marca: ${marca}</p>
+    <p>Modelo: ${modelo}</p>
+    <p>Año: ${año}</p>
+    <p>Cotización: $${precioCotizacion}</p>
+  `;
+
+
 }
+
+
+
