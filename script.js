@@ -1,7 +1,7 @@
 // Cargar marcas de autos desde JSON
 function cargarMarcas() {
   // Datos de marcas de autos
-  const marcasJSON = '[{"name": "Ford"},{"name": "Chevrolet"},{"name": "Toyota"},{"name": "Honda"},{"name": "Nissan"}]';
+  const marcasJSON = '[{"name": "Ford"},{"name": "Chevrolet"},{"name": "Toyota"},{"name": "Honda"},{"name": "Nissan"}';
   const marcas = JSON.parse(marcasJSON);
 
   // Generar las opciones de marcas
@@ -88,8 +88,9 @@ function mostrarDatosPersonales() {
   const modelo = document.getElementById("modelo").value;
   const año = document.getElementById("año").value;
 
-  // Validar que el año no sea mayor al año actual
   const añoActual = new Date().getFullYear();
+
+  // Validar que el año no sea mayor al año actual
   if (año > añoActual) {
     const alerta = document.createElement("p");
     alerta.textContent = "El año ingresado no puede ser mayor al año actual";
