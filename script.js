@@ -1,40 +1,52 @@
-// Cargar marcas de autos desde JSON
-function cargarMarcas() {
-  // Datos de marcas de autos
-  const marcasJSON = '[{"name": "Ford"},{"name": "Chevrolet"},{"name": "Toyota"},{"name": "Honda"},{"name": "Nissan"}';
-  const marcas = JSON.parse(marcasJSON);
+//Definiendo precios a los modelos
+const preciosBase = {
+  Ford: {
+    Fiesta: 1000,
+    Focus: 1200,
+    Mustang: 2000,
+    Explorer: 2500,
+    F150: 3000
+  },
+  Chevrolet: {
+    Spark: 900,
+    Sonic: 1100,
+    Malibu: 1800,
+    Traverse: 2200,
+    Silverado: 3200
+  },
+  Toyota: {
+    Yaris: 950,
+    Corolla: 1300,
+    Camry: 2000,
+    RAV4: 2400,
+    Tacoma: 2900
+  },
+  Honda: {
+    Fit: 900,
+    Civic: 1200,
+    Accord: 1900,
+    CVR: 2200,
+    Ridgeline: 2900
+  },
+  Nissan: {
+    Versa: 950,
+    Sentra: 1200,
+    Altima: 1900,
+    Rogue: 2300,
+    Titan: 3000
+  }
+};
 
-  // Generar las opciones de marcas
-  const marcaSelect = document.getElementById("marca");
-  marcaSelect.innerHTML = "<option value=''>Selecciona una marca</option>";
-
-  marcas.forEach(marca => {
-    const option = document.createElement("option");
-    option.value = marca.name;
-    option.textContent = marca.name;
-    marcaSelect.appendChild(option);
-  });
-}
-
-// Cargar modelos de autos asociados a la marca seleccionada
+// Cargar modelos de los autos asociados a la marca del auto
 function cargarModelos() {
   const marca = document.getElementById("marca").value;
+  const modelos = Object.keys(preciosBase[marca]);
 
-  // Datos de modelos de autos 
-  const modelosJSON = {
-    "Ford": ["Fiesta", "Focus", "Mustang", "Explorer", "F150"],
-    "Chevrolet": ["Spark", "Sonic", "Malibu", "Traverse", "Silverado"],
-    "Toyota": ["Yaris", "Corolla", "Camry", "RAV4", "Tacoma"],
-    "Honda": ["Fit", "Civic", "Accord", "CVR", "Ridgeline"],
-    "Nissan": ["Versa", "Sentra", "Altima", "Rogue", "Titan"]
-  };
-
-  const modelos = modelosJSON[marca];
-
-  // Generar las opciones de modelos
+  // Generar las opciones de modelos dependiendo de la elección de marca
   const modeloSelect = document.getElementById("modelo");
   modeloSelect.innerHTML = "<option value=''>Selecciona un modelo</option>";
 
+  // Bucle que recorre el array de modelos
   modelos.forEach(modelo => {
     const option = document.createElement("option");
     option.value = modelo;
@@ -43,68 +55,24 @@ function cargarModelos() {
   });
 }
 
-//Precios de los autos
-const preciosBase = {
-  "Ford": {
-    "Fiesta": 1000,
-    "Focus": 1200,
-    "Mustang": 2000,
-    "Explorer": 1800,
-    "F150": 2500
-  },
-  "Chevrolet": {
-    "Spark": 900,
-    "Sonic": 1100,
-    "Malibu": 1900,
-    "Traverse": 1700,
-    "Silverado": 2200
-  },
-  "Toyota": {
-    "Yaris": 950,
-    "Corolla": 1150,
-    "Camry": 1950,
-    "RAV4": 1750,
-    "Tacoma": 2300
-    },
-    "Honda": {
-    "Fit": 950,
-    "Civic": 1150,
-    "Accord": 1950,
-    "CVR": 1750,
-    "Ridgeline": 2300
-    },
-    "Nissan": {
-    "Versa": 900,
-    "Sentra": 1100,
-    "Altima": 1900,
-    "Rogue": 1700,
-    "Titan": 2200
-    }
-  };
-
+// Función para limpiar el mensaje de error
+function limpiarError() {
+  const errorContainer = document.getElementById("error");
+  errorContainer.textContent = ""; 
+}
 
 function mostrarDatosPersonales() {
+  // Limpiar el mensaje de error
+  limpiarError();
+
   const marca = document.getElementById("marca").value;
   const modelo = document.getElementById("modelo").value;
   const año = document.getElementById("año").value;
 
-  const añoActual = new Date().getFullYear();
-
-  // Validar que el año no sea mayor al año actual
-  if (año > añoActual) {
-    const alerta = document.createElement("p");
-    alerta.textContent = "El año ingresado no puede ser mayor al año actual";
-    alerta.style.color = "red";
-    document.getElementById("Siguiente").appendChild(alerta);
-    return;
-  }
-
   // Verificar que los campos de datos del auto estén completos
   if (!marca || !modelo || !año) {
-    const alerta = document.createElement("p");
-    alerta.textContent = "Por favor completa los datos del auto";
-    alerta.style.color = "red";
-    document.getElementById("Siguiente").appendChild(alerta);
+    const error = document.getElementById("error");
+    error.textContent = "Por favor completa los datos del auto";
     return;
   }
 
@@ -115,14 +83,16 @@ function mostrarDatosPersonales() {
   document.getElementById("Anio").style.display = "none";
   document.getElementById("Siguiente").style.display = "none";
 
+  // Guardar los datos en el Local Storage
+  const datosAuto = {
+    marca: marca,
+    modelo: modelo,
+    año: año
+  };
+  localStorage.setItem("datosAuto", JSON.stringify(datosAuto));
 }
 
 function mostrarResultadoCotizacion(marca, modelo, año, precioCotizacion) {
-   // Almacenar datos en localStorage
-   localStorage.setItem("marca", marca);
-   localStorage.setItem("modelo", modelo);
-   localStorage.setItem("año", año);
-
   // Ocultar contenedores innecesarios
   document.getElementById("datos-personales").style.display = "none";
   document.getElementById("cotizar-seguro").style.display = "none";
@@ -148,10 +118,23 @@ function mostrarResultadoCotizacion(marca, modelo, año, precioCotizacion) {
   // Ocultar el botón "Calcular cotización"
   const cotizarSeguroContainer = document.getElementById("cotizar-seguro");
   cotizarSeguroContainer.style.display = "none";
-  }
-  
-  // Calcular la cotización en base a lo pedido
-  function calcularCotizacion() {
+
+  // Guardar los datos de la cotización en el Local Storage
+  const datosCotizacion = {
+    marca: marca,
+    modelo: modelo,
+    año: año,
+    precioCotizacion: precioCotizacion
+  };
+
+  localStorage.setItem("datosCotizacion", JSON.stringify(datosCotizacion));
+}
+
+// Calcular la cotización en base a lo pedido
+function calcularCotizacion() {
+  // Limpiar el mensaje de error
+  limpiarError();
+
   const marca = document.getElementById("marca").value;
   const modelo = document.getElementById("modelo").value;
   const año = document.getElementById("año").value;
@@ -159,28 +142,17 @@ function mostrarResultadoCotizacion(marca, modelo, año, precioCotizacion) {
   const nombre = document.getElementById("nombre").value;
   const apellido = document.getElementById("apellido").value;
   const email = document.getElementById("email").value;
-  
-   // Verificar que todos los campos estén completos
-   if (!marca || !modelo || !año || !edad || !nombre || !apellido || !email) {
-    const alerta = document.createElement("p");
-    alerta.textContent = "Por favor completa todos los campos";
-    alerta.style.color = "red";
-    document.getElementById("resultado").appendChild(alerta);
+
+  // Verificar que todos los campos estén completos
+  if (!marca || !modelo || !año || !edad || !nombre || !apellido || !email) {
+    const error = document.getElementById("error");
+    error.textContent = "Por favor completa todos los campos";
     return;
   }
 
-  // Almacenar datos en localStorage
-  localStorage.setItem("marca", marca);
-  localStorage.setItem("modelo", modelo);
-  localStorage.setItem("año", año);
-  localStorage.setItem("edad", edad);
-  localStorage.setItem("nombre", nombre);
-  localStorage.setItem("apellido", apellido);
-  localStorage.setItem("email", email);
-  
   const precioBase = preciosBase[marca][modelo];
   let coeficienteEdad = 1;
-  
+
   // Definir el rango de edad
   if (edad >= 18 && edad < 25) {
     coeficienteEdad = 1.5;
@@ -189,10 +161,17 @@ function mostrarResultadoCotizacion(marca, modelo, año, precioCotizacion) {
   } else if (edad >= 60) {
     coeficienteEdad = 1.3;
   } else {
-  const errorElement = document.getElementById("error");
-  errorElement.textContent = "La edad debe ser mayor o igual a 18";
-  errorElement.style.color = "red";
-  return;
+    const errorContainer = document.getElementById("error");
+    errorContainer.textContent = "La edad debe ser mayor o igual a 18";
+    return;
+  }
+
+  // Validar que el año no sea mayor al año actual
+  const añoActual = new Date().getFullYear();
+  if (año > añoActual) {
+    const error = document.getElementById("error");
+    error.textContent = "El año ingresado no puede ser mayor al año actual";
+    return;
   }
 
   // Definir antigüedad del auto
@@ -200,51 +179,39 @@ function mostrarResultadoCotizacion(marca, modelo, año, precioCotizacion) {
   const antiguedad = añoActual - año;
 
   if (antiguedad >= 0 && antiguedad < 5) {
-   coeficienteAño = 2;
+    coeficienteAño = 2;
   } else if (antiguedad >= 5 && antiguedad < 10) {
-   coeficienteAño = 1.5;
+    coeficienteAño = 1.5;
   } else if (antiguedad >= 10) {
     coeficienteAño = 1;
   } else {
-  const errorElement = document.getElementById("error");
-  errorElement.textContent = "El año debe ser válido";
-  errorElement.style.color = "red";
-  return;
+    const error = document.getElementById("error");
+    error.textContent = "El año debe ser válido";
+    return;
   }
-  
-  // Cotizacion final
-  const precioCotizacion = precioBase * coeficienteEdad * coeficienteAño;
-  
-  // Mostrar el resultado de la cotización
-  mostrarResultadoCotizacion(marca, modelo, año, precioCotizacion);
-  }
-  
-  // Redirigir al inicio
-  const recalcularBtn = document.getElementById("Recalcular");
-  recalcularBtn.addEventListener("click", function () {
-  window.location.href = "./index.html";
-  });
 
-  function cargarDatosAlmacenados() {
-    const marca = localStorage.getItem("marca");
-    const modelo = localStorage.getItem("modelo");
-    const año = localStorage.getItem("año");
-    const edad = localStorage.getItem("edad");
-    const nombre = localStorage.getItem("nombre");
-    const apellido = localStorage.getItem("apellido");
-    const email = localStorage.getItem("email");
+    // Cotizacion final
+    const precioCotizacion = precioBase * coeficienteEdad * coeficienteAño;
   
-    if (marca && modelo && año && edad && nombre && apellido && email) {
-      // Establecer los valores en los campos del formulario
-      document.getElementById("marca").value = marca;
-      document.getElementById("modelo").value = modelo;
-      document.getElementById("año").value = año;
-      document.getElementById("edad").value = edad;
-      document.getElementById("nombre").value = nombre;
-      document.getElementById("apellido").value = apellido;
-      document.getElementById("email").value = email;
+    // Mostrar el resultado de la cotización
+    mostrarResultadoCotizacion(marca, modelo, año, precioCotizacion);
     }
-  }
-  
-  window.addEventListener("DOMContentLoaded", cargarDatosAlmacenados);
-  
+    
+    // Redirigir al inicio
+    const recalcularBtn = document.getElementById("Recalcular");
+    recalcularBtn.addEventListener("click", function () {
+      // Eliminar los datos de la cotización del Local Storage
+      localStorage.removeItem("datosCotizacion");
+      window.location.href = "./index.html";
+    });
+
+    // Comprobar si hay datos de cotización guardados en el Local Storage al cargar la página
+    window.addEventListener("DOMContentLoaded", function () {
+      const datosCotizacion = localStorage.getItem("datosCotizacion");
+      if (datosCotizacion) {
+        const { marca, modelo, año, precioCotizacion } = JSON.parse(datosCotizacion);
+        mostrarResultadoCotizacion(marca, modelo, año, precioCotizacion);
+      }
+    });
+
+
