@@ -67,10 +67,10 @@ function mostrarDatosPersonales() {
 
   const marca = document.getElementById("marca").value;
   const modelo = document.getElementById("modelo").value;
-  const año = document.getElementById("año").value;
+  const anio = document.getElementById("anio").value;
 
   // Verificar que los campos de datos del auto estén completos
-  if (!marca || !modelo || !año) {
+  if (!marca || !modelo || !anio) {
     const error = document.getElementById("error");
     error.textContent = "Por favor completa los datos del auto";
     return;
@@ -87,12 +87,13 @@ function mostrarDatosPersonales() {
   const datosAuto = {
     marca: marca,
     modelo: modelo,
-    año: año
+    anio: anio
   };
+  
   localStorage.setItem("datosAuto", JSON.stringify(datosAuto));
 }
 
-function mostrarResultadoCotizacion(marca, modelo, año, precioCotizacion) {
+function mostrarResultadoCotizacion(marca, modelo, anio, precioCotizacion) {
   // Ocultar contenedores innecesarios
   document.getElementById("datos-personales").style.display = "none";
   document.getElementById("cotizar-seguro").style.display = "none";
@@ -106,7 +107,7 @@ function mostrarResultadoCotizacion(marca, modelo, año, precioCotizacion) {
     <h3>Resultado de la cotización</h3>
     <p>Marca: ${marca}</p>
     <p>Modelo: ${modelo}</p>
-    <p>Año: ${año}</p>
+    <p>Año: ${anio}</p>
     <p>Cotización: $${precioCotizacion}</p>
   `;
   resultado.style.display = "block";
@@ -123,11 +124,12 @@ function mostrarResultadoCotizacion(marca, modelo, año, precioCotizacion) {
   const datosCotizacion = {
     marca: marca,
     modelo: modelo,
-    año: año,
+    anio: anio,
     precioCotizacion: precioCotizacion
   };
 
   localStorage.setItem("datosCotizacion", JSON.stringify(datosCotizacion));
+
 }
 
 // Calcular la cotización en base a lo pedido
@@ -137,14 +139,14 @@ function calcularCotizacion() {
 
   const marca = document.getElementById("marca").value;
   const modelo = document.getElementById("modelo").value;
-  const año = document.getElementById("año").value;
+  const anio = document.getElementById("anio").value;
   const edad = document.getElementById("edad").value;
   const nombre = document.getElementById("nombre").value;
   const apellido = document.getElementById("apellido").value;
   const email = document.getElementById("email").value;
 
   // Verificar que todos los campos estén completos
-  if (!marca || !modelo || !año || !edad || !nombre || !apellido || !email) {
+  if (!marca || !modelo || !anio || !edad || !nombre || !apellido || !email) {
     const error = document.getElementById("error");
     error.textContent = "Por favor completa todos los campos";
     return;
@@ -167,51 +169,51 @@ function calcularCotizacion() {
   }
 
   // Validar que el año no sea mayor al año actual
-  const añoActual = new Date().getFullYear();
-  if (año > añoActual) {
+  const anioActual = new Date().getFullYear();
+  if (anio > anioActual) {
     const error = document.getElementById("error");
     error.textContent = "El año ingresado no puede ser mayor al año actual";
     return;
   }
 
   // Definir antigüedad del auto
-  let coeficienteAño = 1;
-  const antiguedad = añoActual - año;
+  let coeficienteAnio = 1;
+  const antiguedad = anioActual - anio;
 
   if (antiguedad >= 0 && antiguedad < 5) {
-    coeficienteAño = 2;
+    coeficienteAnio = 2;
   } else if (antiguedad >= 5 && antiguedad < 10) {
-    coeficienteAño = 1.5;
+    coeficienteAnio = 1.5;
   } else if (antiguedad >= 10) {
-    coeficienteAño = 1;
+    coeficienteAnio = 1;
   } else {
     const error = document.getElementById("error");
     error.textContent = "El año debe ser válido";
     return;
   }
 
-    // Cotizacion final
-    const precioCotizacion = precioBase * coeficienteEdad * coeficienteAño;
-  
-    // Mostrar el resultado de la cotización
-    mostrarResultadoCotizacion(marca, modelo, año, precioCotizacion);
-    }
-    
-    // Redirigir al inicio
-    const recalcularBtn = document.getElementById("Recalcular");
-    recalcularBtn.addEventListener("click", function () {
-      // Eliminar los datos de la cotización del Local Storage
-      localStorage.removeItem("datosCotizacion");
-      window.location.href = "./index.html";
-    });
+  // Cotizacion final
+  const precioCotizacion = precioBase * coeficienteEdad *coeficienteAnio;
 
-    // Comprobar si hay datos de cotización guardados en el Local Storage al cargar la página
-    window.addEventListener("DOMContentLoaded", function () {
-      const datosCotizacion = localStorage.getItem("datosCotizacion");
-      if (datosCotizacion) {
-        const { marca, modelo, año, precioCotizacion } = JSON.parse(datosCotizacion);
-        mostrarResultadoCotizacion(marca, modelo, año, precioCotizacion);
-      }
-    });
+  // Mostrar el resultado de la cotización
+  mostrarResultadoCotizacion(marca, modelo, anio,precioCotizacion);
+  }
+  
+  // Redirigir al inicio
+  const recalcularBtn = document.getElementById("Recalcular");
+  recalcularBtn.addEventListener("click", function () {
+    // Eliminar los datos de la cotización del Local Storage
+    localStorage.removeItem("datosCotizacion");
+    window.location.href = "./index.html";
+  });
+
+  // Comprobar si hay datos de cotización guardados en el Local Storage al cargar la página
+  window.addEventListener("DOMContentLoaded", function () {
+    const datosCotizacion = localStorage.getItem("datosCotizacion");
+    if (datosCotizacion) {
+      const { marca, modelo, anio, precioCotizacion } =JSON.parse(datosCotizacion);
+      mostrarResultadoCotizacion(marca, modelo, anio,precioCotizacion);
+    }
+  });
 
 
