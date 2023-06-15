@@ -121,14 +121,16 @@ function mostrarResultadoCotizacion(marca, modelo, anio, precioCotizacion) {
   cotizarSeguroContainer.style.display = "none";
 
   // Guardar los datos de la cotización en el Local Storage
-  const datosCotizacion = {
+  const cotizacion = {
     marca: marca,
     modelo: modelo,
     anio: anio,
     precioCotizacion: precioCotizacion
   };
 
-  localStorage.setItem("datosCotizacion", JSON.stringify(datosCotizacion));
+  const cotizacionesAnteriores = JSON.parse(localStorage.getItem("cotizacionesAnteriores")) || [];
+  cotizacionesAnteriores.push(cotizacion);
+  localStorage.setItem("cotizacionesAnteriores", JSON.stringify(cotizacionesAnteriores));
 
 }
 
@@ -203,7 +205,7 @@ function calcularCotizacion() {
   const recalcularBtn = document.getElementById("Recalcular");
   recalcularBtn.addEventListener("click", function () {
     // Eliminar los datos de la cotización del Local Storage
-    localStorage.removeItem("datosCotizacion");
+    //localStorage.removeItem("datosCotizacion");
     window.location.href = "./index.html";
   });
 
@@ -215,5 +217,24 @@ function calcularCotizacion() {
       mostrarResultadoCotizacion(marca, modelo, anio,precioCotizacion);
     }
   });
+
+  function mostrarCotizacionesAnteriores() {
+    const cotizacionesAnteriores = JSON.parse(localStorage.getItem("cotizacionesAnteriores")) || [];
+    const cotizacionesAnterioresContainer = document.getElementById("cotizacionesAnterioresContainer");
+    // Limpiar las cotizaciones anteriores
+    cotizacionesAnterioresContainer.innerHTML = ""; 
+  
+    // Mostrar las últimas 3 cotizaciones
+    const ultimasCotizaciones = cotizacionesAnteriores.slice(-3);
+    ultimasCotizaciones.forEach(cotizacion => {
+      const li = document.createElement("li");
+      li.textContent = `Marca: ${cotizacion.marca}, Modelo: ${cotizacion.modelo}, Año: ${cotizacion.anio}, Cotización: $${cotizacion.precioCotizacion}`;
+      cotizacionesAnterioresContainer.appendChild(li);
+    });
+  
+    // Mostrar el contenedor de las cotizaciones anteriores
+    document.getElementById("CotizacionesAnteriores").style.display = "block";
+  }
+  
 
 
