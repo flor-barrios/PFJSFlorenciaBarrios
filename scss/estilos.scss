@@ -21,6 +21,27 @@ body{
 nav{
     padding: 0;
     box-shadow: 0 3px 6px #0003;
+
+    button{
+        text-decoration: none; 
+        color: black; 
+        border: 1px solid #0f2b35; 
+        border-radius: 10px;
+        padding: 0.5em;
+        display: flex;
+        text-shadow: none;
+        font-size: 0.8em;
+        margin: 5px;
+
+        button:hover{
+            opacity: 1;
+        }
+    }
+
+    ul{
+        margin: 0;
+        padding: 0;
+    }
 }
 
 footer{
@@ -29,7 +50,7 @@ footer{
     background-color: #f8f9fa;
     width: 100%;
     flex-shrink: 0; 
-    margin-top: auto; 
+    margin-top: auto;
 }
 
 form{
@@ -91,6 +112,7 @@ form{
         opacity: 0.8;
         transition: all 0.2s;
         font-size: 0.8em;
+        margin-bottom: 5px;
 
         button:hover{
             opacity: 1;

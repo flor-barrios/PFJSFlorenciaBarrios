@@ -22,6 +22,24 @@ nav {
   padding: 0;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 }
+nav button {
+  text-decoration: none;
+  color: black;
+  border: 1px solid #0f2b35;
+  border-radius: 10px;
+  padding: 0.5em;
+  display: flex;
+  text-shadow: none;
+  font-size: 0.8em;
+  margin: 5px;
+}
+nav button button:hover {
+  opacity: 1;
+}
+nav ul {
+  margin: 0;
+  padding: 0;
+}
 
 footer {
   text-align: center;
@@ -84,6 +102,7 @@ form button {
   opacity: 0.8;
   transition: all 0.2s;
   font-size: 0.8em;
+  margin-bottom: 5px;
 }
 form button button:hover {
   opacity: 1;

@@ -72,7 +72,19 @@ function mostrarDatosPersonales() {
   // Verificar que los campos de datos del auto estén completos
   if (!marca || !modelo || !anio) {
     const error = document.getElementById("error");
-    error.textContent = "Por favor completa los datos del auto";
+    Toastify({
+      text: "Por favor completa los datos del auto",
+      duration: 3000,
+      newWindow: true,
+      close: true,
+      gravity: "top", 
+      position: "left", 
+      stopOnFocus: true,
+      style: {
+        background: "#f47458",
+      },
+      onClick: function(){} 
+    }).showToast();
     return;
   }
 
@@ -112,7 +124,7 @@ function mostrarResultadoCotizacion(marca, modelo, anio, precioCotizacion) {
   `;
   resultado.style.display = "block";
 
-  // Mostrar el botón "Recalcular"
+  // Mostrar el botón "Recalcular" 
   const recalcularContainer = document.getElementById("Recalcular");
   recalcularContainer.style.display = "block";
 
@@ -150,7 +162,19 @@ function calcularCotizacion() {
   // Verificar que todos los campos estén completos
   if (!marca || !modelo || !anio || !edad || !nombre || !apellido || !email) {
     const error = document.getElementById("error");
-    error.textContent = "Por favor completa todos los campos";
+    Toastify({
+      text: "Por favor completa todos los datos",
+      duration: 3000,
+      newWindow: true,
+      close: true,
+      gravity: "top", 
+      position: "left", 
+      stopOnFocus: true,
+      style: {
+        background: "#f47458",
+      },
+      onClick: function(){} 
+    }).showToast();
     return;
   }
 
@@ -166,7 +190,19 @@ function calcularCotizacion() {
     coeficienteEdad = 1.3;
   } else {
     const errorContainer = document.getElementById("error");
-    errorContainer.textContent = "La edad debe ser mayor o igual a 18";
+    Toastify({
+      text: "La edad debe ser mayor o igual a 18 años",
+      duration: 3000,
+      newWindow: true,
+      close: true,
+      gravity: "top", 
+      position: "left", 
+      stopOnFocus: true,
+      style: {
+        background: "#f47458",
+      },
+      onClick: function(){} 
+    }).showToast();
     return;
   }
 
@@ -174,7 +210,19 @@ function calcularCotizacion() {
   const anioActual = new Date().getFullYear();
   if (anio > anioActual) {
     const error = document.getElementById("error");
-    error.textContent = "El año ingresado no puede ser mayor al año actual";
+    Toastify({
+      text: "El año ingresado no puede ser mayor al año actual",
+      duration: 3000,
+      newWindow: true,
+      close: true,
+      gravity: "top", 
+      position: "left", 
+      stopOnFocus: true,
+      style: {
+        background: "#f47458",
+      },
+      onClick: function(){} 
+    }).showToast();
     return;
   }
 
@@ -190,7 +238,19 @@ function calcularCotizacion() {
     coeficienteAnio = 1;
   } else {
     const error = document.getElementById("error");
-    error.textContent = "El año debe ser válido";
+    Toastify({
+      text: "El año debe ser valido",
+      duration: 3000,
+      newWindow: true,
+      close: true,
+      gravity: "top", 
+      position: "left", 
+      stopOnFocus: true,
+      style: {
+        background: "#f47458",
+      },
+      onClick: function(){} 
+    }).showToast();
     return;
   }
 
@@ -202,21 +262,24 @@ function calcularCotizacion() {
   }
   
   // Redirigir al inicio
-  const recalcularBtn = document.getElementById("Recalcular");
+  const recalcularBtn = document.getElementById("btnRecalcular");
   recalcularBtn.addEventListener("click", function () {
-    // Eliminar los datos de la cotización del Local Storage
-    //localStorage.removeItem("datosCotizacion");
     window.location.href = "./index.html";
   });
 
   // Comprobar si hay datos de cotización guardados en el Local Storage al cargar la página
   window.addEventListener("DOMContentLoaded", function () {
-    const datosCotizacion = localStorage.getItem("datosCotizacion");
-    if (datosCotizacion) {
-      const { marca, modelo, anio, precioCotizacion } =JSON.parse(datosCotizacion);
-      mostrarResultadoCotizacion(marca, modelo, anio,precioCotizacion);
-    }
+    fetch('datos.json')
+      .then(response => response.json())
+      .then(data => {
+        const { marca, modelo, anio, precioCotizacion } = data;
+        mostrarResultadoCotizacion(marca, modelo, anio, precioCotizacion);
+      })
+      .catch(error => {
+        console.log('Error al cargar los datos:', error);
+      });
   });
+  
 
   function mostrarCotizacionesAnteriores() {
     const cotizacionesAnteriores = JSON.parse(localStorage.getItem("cotizacionesAnteriores")) || [];
@@ -228,13 +291,27 @@ function calcularCotizacion() {
     const ultimasCotizaciones = cotizacionesAnteriores.slice(-3);
     ultimasCotizaciones.forEach(cotizacion => {
       const li = document.createElement("li");
-      li.textContent = `Marca: ${cotizacion.marca}, Modelo: ${cotizacion.modelo}, Año: ${cotizacion.anio}, Cotización: $${cotizacion.precioCotizacion}`;
-      cotizacionesAnterioresContainer.appendChild(li);
+      Toastify({
+        text: `Marca: ${cotizacion.marca}, 
+        Modelo: ${cotizacion.modelo}, 
+        Año: ${cotizacion.anio}, 
+        Cotización: $${cotizacion.precioCotizacion}`,
+        duration: -1,
+        newWindow: true,
+        close: true,
+        gravity: "center", 
+        position: "center", 
+        stopOnFocus: true,
+        style: {
+          background: "#184656",
+        },
+        onClick: function(){} 
+      }).showToast();
     });
   
-    // Mostrar el contenedor de las cotizaciones anteriores
-    document.getElementById("CotizacionesAnteriores").style.display = "block";
-  }
-  
+  };
 
+  // Mostrar el contenedor de las cotizaciones anteriores
+  document.getElementById("CotizacionesAnteriores").style.display = "block";
 
+    
