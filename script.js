@@ -61,16 +61,16 @@ function cargarMarcasYModelos() {
 
 // Cargar modelos asociados a la marca seleccionada
 function cargarModelos() {
-  const marca = document.getElementById("marca").value;
+  const marcaSeleccionada = document.getElementById("marca").value;
 
   fetch("datos.json")
     .then(response => response.json())
     .then(data => {
       const marcas = data.marcas;
-      const marcaSeleccionada = marcas.find(marca => marca.nombre === marca);
+      const marca = marcas.find(marca => marca.nombre === marcaSeleccionada);
 
-      if (marcaSeleccionada) {
-        const modelos = marcaSeleccionada.modelos;
+      if (marca) {
+        const modelos = marca.modelos;
 
         const modeloSelect = document.getElementById("modelo");
         modeloSelect.innerHTML = "<option value=''>Selecciona un modelo</option>";
@@ -87,6 +87,7 @@ function cargarModelos() {
       console.log('Error al cargar los datos:', error);
     });
 }
+
 
 // Función para limpiar el mensaje de error
 function limpiarError() {
@@ -304,8 +305,7 @@ function calcularCotizacion() {
 
   // Evento para cargar los modelos al seleccionar una marca
   const marcaSelect = document.getElementById("marca");
-  marcaSelect.addEventListener("change", cargarModelos);
-  
+  marcaSelect.addEventListener("change", cargarModelos);  
 
   function mostrarCotizacionesAnteriores() {
     const cotizacionesAnteriores = JSON.parse(localStorage.getItem("cotizacionesAnteriores")) || [];
