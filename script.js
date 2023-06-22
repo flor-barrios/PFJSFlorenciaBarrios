@@ -37,22 +37,55 @@ const preciosBase = {
   }
 };
 
-// Cargar modelos de los autos asociados a la marca del auto
+// Cargar marcas y modelos de autos
+function cargarMarcasYModelos() {
+  fetch("datos.json")
+    .then(response => response.json())
+    .then(data => {
+      const marcas = data.marcas;
+
+      const marcaSelect = document.getElementById("marca");
+      marcaSelect.innerHTML = "<option value=''>Selecciona una marca</option>";
+
+      marcas.forEach(marca => {
+        const option = document.createElement("option");
+        option.value = marca.nombre;
+        option.textContent = marca.nombre;
+        marcaSelect.appendChild(option);
+      });
+    })
+    .catch(error => {
+      console.log('Error al cargar los datos:', error);
+    });
+}
+
+// Cargar modelos asociados a la marca seleccionada
 function cargarModelos() {
   const marca = document.getElementById("marca").value;
-  const modelos = Object.keys(preciosBase[marca]);
 
-  // Generar las opciones de modelos dependiendo de la elección de marca
-  const modeloSelect = document.getElementById("modelo");
-  modeloSelect.innerHTML = "<option value=''>Selecciona un modelo</option>";
+  fetch("datos.json")
+    .then(response => response.json())
+    .then(data => {
+      const marcas = data.marcas;
+      const marcaSeleccionada = marcas.find(marca => marca.nombre === marca);
 
-  // Bucle que recorre el array de modelos
-  modelos.forEach(modelo => {
-    const option = document.createElement("option");
-    option.value = modelo;
-    option.textContent = modelo;
-    modeloSelect.appendChild(option);
-  });
+      if (marcaSeleccionada) {
+        const modelos = marcaSeleccionada.modelos;
+
+        const modeloSelect = document.getElementById("modelo");
+        modeloSelect.innerHTML = "<option value=''>Selecciona un modelo</option>";
+
+        modelos.forEach(modelo => {
+          const option = document.createElement("option");
+          option.value = modelo;
+          option.textContent = modelo;
+          modeloSelect.appendChild(option);
+        });
+      }
+    })
+    .catch(error => {
+      console.log('Error al cargar los datos:', error);
+    });
 }
 
 // Función para limpiar el mensaje de error
@@ -266,18 +299,12 @@ function calcularCotizacion() {
     window.location.href = "./index.html";
   });
 
-  // Comprobar si hay datos de cotización guardados en el Local Storage al cargar la página
-  window.addEventListener("DOMContentLoaded", function () {
-    fetch('datos.json')
-      .then(response => response.json())
-      .then(data => {
-        const { marca, modelo, anio, precioCotizacion } = data;
-        mostrarResultadoCotizacion(marca, modelo, anio, precioCotizacion);
-      })
-      .catch(error => {
-        console.log('Error al cargar los datos:', error);
-      });
-  });
+ // Evento para cargar las marcas y modelos al cargar la página
+  window.addEventListener("DOMContentLoaded", cargarMarcasYModelos);
+
+  // Evento para cargar los modelos al seleccionar una marca
+  const marcaSelect = document.getElementById("marca");
+  marcaSelect.addEventListener("change", cargarModelos);
   
 
   function mostrarCotizacionesAnteriores() {

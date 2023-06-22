@@ -1,81 +1,22 @@
-[
-    {
-        "marca": "Toyota",
-        "modelo": "Camry",
-        "anio": 2022,
-        "precioCotizacion": 1500
-    },
-    {
-        "marca": "Ford",
-        "modelo": "Mustang",
-        "anio": 2023,
-        "precioCotizacion": 2000
-    },
-    {
-        "marca": "Chevrolet",
-        "modelo": "Camaro",
-        "anio": 2022,
-        "precioCotizacion": 1800
-    },
-    {
-        "marca": "Ford",
-        "modelo": "Fiesta",
-        "anio": 2022,
-        "precioCotizacion": 1000
-    },
-    {
-        "marca": "Ford",
-        "modelo": "Focus",
-        "anio": 2022,
-        "precioCotizacion": 1200
-    },
-    {
-        "marca": "Chevrolet",
-        "modelo": "Spark",
-        "anio": 2022,
-        "precioCotizacion": 900
-    },
-    {
-        "marca": "Chevrolet",
-        "modelo": "Sonic",
-        "anio": 2022,
-        "precioCotizacion": 1100
-    },
-    {
-        "marca": "Toyota",
-        "modelo": "Yaris",
-        "anio": 2022,
-        "precioCotizacion": 950
-    },
-    {
-        "marca": "Toyota",
-        "modelo": "Corolla",
-        "anio": 2022,
-        "precioCotizacion": 1300
-    },
-    {
-        "marca": "Honda",
-        "modelo": "Fit",
-        "anio": 2022,
-        "precioCotizacion": 900
-    },
-    {
-        "marca": "Honda",
-        "modelo": "Civic",
-        "anio": 2022,
-        "precioCotizacion": 1200
-    },
-    {
-        "marca": "Nissan",
-        "modelo": "Versa",
-        "anio": 2022,
-        "precioCotizacion": 950
-    },
-    {
-        "marca": "Nissan",
-        "modelo": "Sentra",
-        "anio": 2022,
-        "precioCotizacion": 1200
-    }
-]
+{
+    "marcas": [
+      {
+        "nombre": "Toyota",
+        "modelos": ["Corolla", "Camry", "RAV4", "Yaris", "Tacoma"]
+      },
+      {
+        "nombre": "Honda",
+        "modelos": ["Civic", "Accord", "CRV", "Fit", "Ridgeline"]
+      },
+      {
+        "nombre": "Ford",
+        "modelos": ["Mustang", "F150", "Explorer", "Focus", "Fiesta"]
+      },
+      {
+        "nombre": "Nissan",
+        "modelos": ["Versa", "Sentra", "Altima", "Rogue","Titan"]
+      }
+    ]
+  }
+  
 
