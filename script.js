@@ -143,7 +143,6 @@ function mostrarResultadoCotizacion(marca, modelo, anio, precioCotizacion) {
   const cotizacionesAnteriores = JSON.parse(localStorage.getItem("cotizacionesAnteriores")) || [];
   cotizacionesAnteriores.push(cotizacion);
   localStorage.setItem("cotizacionesAnteriores", JSON.stringify(cotizacionesAnteriores));
-
 }
 
 // Calcular la cotización en base a lo pedido
@@ -284,6 +283,7 @@ function calcularCotizacion() {
   function mostrarCotizacionesAnteriores() {
     const cotizacionesAnteriores = JSON.parse(localStorage.getItem("cotizacionesAnteriores")) || [];
     const cotizacionesAnterioresContainer = document.getElementById("cotizacionesAnterioresContainer");
+    
     // Limpiar las cotizaciones anteriores
     cotizacionesAnterioresContainer.innerHTML = ""; 
   

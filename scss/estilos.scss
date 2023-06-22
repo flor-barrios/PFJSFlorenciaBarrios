@@ -32,10 +32,6 @@ nav{
         text-shadow: none;
         font-size: 0.8em;
         margin: 5px;
-
-        button:hover{
-            opacity: 1;
-        }
     }
 
     ul{
@@ -71,7 +67,7 @@ form{
     select{
         border-radius: 12px;
         padding: 5px;
-        width: 25%;
+        width: 88%;
         margin-bottom: 10px; 
         border: 2px solid #184656;
         font-weight: bold;
@@ -79,7 +75,7 @@ form{
 
     
     #modelo{
-        width: 25%;
+        width: 88%;
     }
 
     input{
@@ -121,3 +117,8 @@ form{
 
 }
 
+#subtitulo{
+    display: none;
+}
+
+@import "queries";
