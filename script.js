@@ -37,11 +37,16 @@ const preciosBase = {
   }
 };
 
+// Definir una variable global para almacenar los datos
+let datosMarcasYModelos;
+
 // Cargar marcas y modelos de autos
 function cargarMarcasYModelos() {
   fetch("datos.json")
     .then(response => response.json())
     .then(data => {
+      datosMarcasYModelos = data; // Almacenar los datos en la variable global
+
       const marcas = data.marcas;
 
       const marcaSelect = document.getElementById("marca");
@@ -63,31 +68,22 @@ function cargarMarcasYModelos() {
 function cargarModelos() {
   const marcaSeleccionada = document.getElementById("marca").value;
 
-  fetch("datos.json")
-    .then(response => response.json())
-    .then(data => {
-      const marcas = data.marcas;
-      const marca = marcas.find(marca => marca.nombre === marcaSeleccionada);
+  const marca = datosMarcasYModelos.marcas.find(marca => marca.nombre === marcaSeleccionada);
 
-      if (marca) {
-        const modelos = marca.modelos;
+  if (marca) {
+    const modelos = marca.modelos;
 
-        const modeloSelect = document.getElementById("modelo");
-        modeloSelect.innerHTML = "<option value=''>Selecciona un modelo</option>";
+    const modeloSelect = document.getElementById("modelo");
+    modeloSelect.innerHTML = "<option value=''>Selecciona un modelo</option>";
 
-        modelos.forEach(modelo => {
-          const option = document.createElement("option");
-          option.value = modelo;
-          option.textContent = modelo;
-          modeloSelect.appendChild(option);
-        });
-      }
-    })
-    .catch(error => {
-      console.log('Error al cargar los datos:', error);
+    modelos.forEach(modelo => {
+      const option = document.createElement("option");
+      option.value = modelo;
+      option.textContent = modelo;
+      modeloSelect.appendChild(option);
     });
+  }
 }
-
 
 // Función para limpiar el mensaje de error
 function limpiarError() {
@@ -123,11 +119,11 @@ function mostrarDatosPersonales() {
   }
 
   // Ocultar los contenedores innecesarios
-  document.getElementById("datos-personales").style.display = "block";
-  document.getElementById("cotizar-seguro").style.display = "block";
-  document.getElementById("Marca-Modelo").style.display = "none";
+  document.getElementById("datosPersonales").style.display = "block";
+  document.getElementById("cotizarSeguro").style.display = "block";
+  document.getElementById("marcaModelo").style.display = "none";
   document.getElementById("Anio").style.display = "none";
-  document.getElementById("Siguiente").style.display = "none";
+  document.getElementById("siguiente").style.display = "none";
 
   // Guardar los datos en el Local Storage
   const datosAuto = {
@@ -141,11 +137,11 @@ function mostrarDatosPersonales() {
 
 function mostrarResultadoCotizacion(marca, modelo, anio, precioCotizacion) {
   // Ocultar contenedores innecesarios
-  document.getElementById("datos-personales").style.display = "none";
-  document.getElementById("cotizar-seguro").style.display = "none";
-  document.getElementById("Marca-Modelo").style.display = "none";
+  document.getElementById("datosPersonales").style.display = "none";
+  document.getElementById("cotizarSeguro").style.display = "none";
+  document.getElementById("marcaModelo").style.display = "none";
   document.getElementById("Anio").style.display = "none";
-  document.getElementById("Siguiente").style.display = "none";
+  document.getElementById("siguiente").style.display = "none";
 
   // Mostrar el resultado de la cotización
   const resultado = document.getElementById("resultado");
@@ -159,11 +155,11 @@ function mostrarResultadoCotizacion(marca, modelo, anio, precioCotizacion) {
   resultado.style.display = "block";
 
   // Mostrar el botón "Recalcular" 
-  const recalcularContainer = document.getElementById("Recalcular");
+  const recalcularContainer = document.getElementById("recalcular");
   recalcularContainer.style.display = "block";
 
   // Ocultar el botón "Calcular cotización"
-  const cotizarSeguroContainer = document.getElementById("cotizar-seguro");
+  const cotizarSeguroContainer = document.getElementById("cotizarSeguro");
   cotizarSeguroContainer.style.display = "none";
 
   // Guardar los datos de la cotización en el Local Storage
@@ -310,33 +306,38 @@ function calcularCotizacion() {
   function mostrarCotizacionesAnteriores() {
     const cotizacionesAnteriores = JSON.parse(localStorage.getItem("cotizacionesAnteriores")) || [];
     const cotizacionesAnterioresContainer = document.getElementById("cotizacionesAnterioresContainer");
-    
+  
     // Limpiar las cotizaciones anteriores
-    cotizacionesAnterioresContainer.innerHTML = ""; 
+    cotizacionesAnterioresContainer.innerHTML = "";
   
     // Mostrar las últimas 3 cotizaciones
     const ultimasCotizaciones = cotizacionesAnteriores.slice(-3);
+  
+    // Concatenar los textos de las cotizaciones en una variable
+    let cotizacionesTexto = "";
     ultimasCotizaciones.forEach(cotizacion => {
-      const li = document.createElement("li");
-      Toastify({
-        text: `Marca: ${cotizacion.marca}, 
-        Modelo: ${cotizacion.modelo}, 
-        Año: ${cotizacion.anio}, 
-        Cotización: $${cotizacion.precioCotizacion}`,
-        duration: -1,
-        newWindow: true,
-        close: true,
-        gravity: "center", 
-        position: "center", 
-        stopOnFocus: true,
-        style: {
-          background: "#184656",
-        },
-        onClick: function(){} 
-      }).showToast();
+      cotizacionesTexto += `Marca: ${cotizacion.marca}, 
+          Modelo: ${cotizacion.modelo}, 
+          Año: ${cotizacion.anio}, 
+          Cotización: $${cotizacion.precioCotizacion}\n\n`;
     });
   
+    // Mostrar las cotizaciones anteriores en el contenedor
+    Toastify({
+      text: cotizacionesTexto,
+      duration: -1,
+      newWindow: true,
+      close: true,
+      gravity: "top",
+      position: "right",
+      stopOnFocus: true,
+      style: {
+        background: "#184656",
+      },
+      onClick: function () { }
+    }).showToast();
   };
+  
 
   // Mostrar el contenedor de las cotizaciones anteriores
   document.getElementById("CotizacionesAnteriores").style.display = "block";

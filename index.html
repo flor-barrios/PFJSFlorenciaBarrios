@@ -31,7 +31,7 @@
     <h5 id="subtitulo">Obtén un seguro de auto que se ajuste a tus necesidades</h5>    
 
     <form>
-      <div class="parte1" style="display: block;" id="Marca-Modelo">
+      <div class="parte1" style="display: block;" id="marcaModelo">
         <h3>Datos del auto</h3>
         <label for="marca">Marca:</label>
         <select id="marca" onchange="cargarModelos()">
@@ -52,11 +52,11 @@
         <input type="number" id="anio"/>
       </div>
 
-      <div class="parte3" style="display: block;" id="Siguiente">
+      <div class="parte3" style="display: block;" id="siguiente">
         <button type="button" onclick="mostrarDatosPersonales()">Siguiente</button>
       </div>
 
-      <div class="parte4" id="datos-personales" style="display: none;">
+      <div class="parte4" id="datosPersonales" style="display: none;">
           <h3>Datos personales</h3>
           <label for="nombre">Nombre:</label>
           <input type="text" id="nombre" required>
@@ -71,13 +71,13 @@
           <input type="email" id="email" required>
       </div>
 
-      <div class="parte5" id="cotizar-seguro" style="display: none;">
+      <div class="parte5" id="cotizarSeguro" style="display: none;">
         <button type="button" onclick="calcularCotizacion()">Calcular cotización</button>
       </div>
 
       <p id="resultado"></p> 
 
-      <div class="parte6" id="Recalcular" style="display: none;">
+      <div class="parte6" id="recalcular" style="display: none;">
         <button id="btnRecalcular" type="button">Recalcular</button>
       </div>
 

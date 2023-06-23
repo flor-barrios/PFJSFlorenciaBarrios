@@ -6,7 +6,7 @@
       },
       {
         "nombre": "Honda",
-        "modelos": ["Civic", "Accord", "CRV", "Fit", "Ridgeline"]
+        "modelos": ["Civic", "Accord", "CVR", "Fit", "Ridgeline"]
       },
       {
         "nombre": "Ford",
