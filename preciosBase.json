@@ -1,0 +1,40 @@
+{
+    "preciosBase": {
+      "Ford": {
+        "Fiesta": 1000,
+        "Focus": 1200,
+        "Mustang": 2000,
+        "Explorer": 2500,
+        "F150": 3000
+      },
+      "Chevrolet": {
+        "Spark": 900,
+        "Sonic": 1100,
+        "Malibu": 1800,
+        "Traverse": 2200,
+        "Silverado": 3200
+      },
+      "Toyota": {
+        "Yaris": 950,
+        "Corolla": 1300,
+        "Camry": 2000,
+        "RAV4": 2400,
+        "Tacoma": 2900
+      },
+      "Honda": {
+        "Fit": 900,
+        "Civic": 1200,
+        "Accord": 1900,
+        "CVR": 2200,
+        "Ridgeline": 2900
+      },
+      "Nissan": {
+        "Versa": 950,
+        "Sentra": 1200,
+        "Altima": 1900,
+        "Rogue": 2300,
+        "Titan": 3000
+      }
+    }
+  }
+  

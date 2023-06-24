@@ -1,77 +1,70 @@
-//Definiendo precios a los modelos
-const preciosBase = {
-  Ford: {
-    Fiesta: 1000,
-    Focus: 1200,
-    Mustang: 2000,
-    Explorer: 2500,
-    F150: 3000
-  },
-  Chevrolet: {
-    Spark: 900,
-    Sonic: 1100,
-    Malibu: 1800,
-    Traverse: 2200,
-    Silverado: 3200
-  },
-  Toyota: {
-    Yaris: 950,
-    Corolla: 1300,
-    Camry: 2000,
-    RAV4: 2400,
-    Tacoma: 2900
-  },
-  Honda: {
-    Fit: 900,
-    Civic: 1200,
-    Accord: 1900,
-    CVR: 2200,
-    Ridgeline: 2900
-  },
-  Nissan: {
-    Versa: 950,
-    Sentra: 1200,
-    Altima: 1900,
-    Rogue: 2300,
-    Titan: 3000
-  }
-};
-
 // Definir una variable global para almacenar los datos
 let datosMarcasYModelos;
 
 // Cargar marcas y modelos de autos
 function cargarMarcasYModelos() {
-  fetch("datos.json")
+  fetch("preciosBase.json")
     .then(response => response.json())
     .then(data => {
-      datosMarcasYModelos = data; // Almacenar los datos en la variable global
+      // Almacenar los datos en la variable global
+      datosMarcasYModelos = data; 
 
-      const marcas = data.marcas;
+      const marcas = Object.keys(data.preciosBase);
 
       const marcaSelect = document.getElementById("marca");
       marcaSelect.innerHTML = "<option value=''>Selecciona una marca</option>";
 
       marcas.forEach(marca => {
         const option = document.createElement("option");
-        option.value = marca.nombre;
-        option.textContent = marca.nombre;
+        option.value = marca;
+        option.textContent = marca;
         marcaSelect.appendChild(option);
       });
+
+      cargarModelos(); 
     })
+
     .catch(error => {
-      console.log('Error al cargar los datos:', error);
+      const toast = Toastify({
+      text: 'Error al cargar los datos, por favor vuelve a cargar la página.',
+      duration: -1,
+      newWindow: true,
+      close: true,
+      gravity: "center", 
+      position: "center", 
+      stopOnFocus: true,
+      style: {
+        background: "#f8f9fa",
+        color: "black",
+        fontWeight: "bold",
+        width: "500px", 
+        height: "200px", 
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      },
+      onClick: function(){} 
+      });
+      toast.showToast();
+
+      // Ocultar el toast después de la duración del error
+      setTimeout(function() {
+      toast.hideToast();
+      }, duration);
     });
 }
 
-// Cargar modelos asociados a la marca seleccionada
 function cargarModelos() {
-  const marcaSeleccionada = document.getElementById("marca").value;
+  if (datosMarcasYModelos) {
+    const marcaSelect = document.getElementById("marca");
+    const marcaSeleccionada = marcaSelect.value;
 
-  const marca = datosMarcasYModelos.marcas.find(marca => marca.nombre === marcaSeleccionada);
+    let modelos = [];
 
-  if (marca) {
-    const modelos = marca.modelos;
+    // Buscar la marca seleccionada en los datos
+    if (datosMarcasYModelos.preciosBase.hasOwnProperty(marcaSeleccionada)) {
+      modelos = Object.keys(datosMarcasYModelos.preciosBase[marcaSeleccionada]);
+    }
 
     const modeloSelect = document.getElementById("modelo");
     modeloSelect.innerHTML = "<option value=''>Selecciona un modelo</option>";
@@ -116,6 +109,29 @@ function mostrarDatosPersonales() {
       onClick: function(){} 
     }).showToast();
     return;
+  }
+
+  // Obtener el año del auto ingresado por el usuario
+  const anioAuto = parseInt(document.getElementById('anio').value);
+
+  // Validar si el año es válido
+  const currentYear = new Date().getFullYear();
+  if (isNaN(anioAuto) || anioAuto < 1800 || anioAuto > currentYear) {
+  const errorContainer = document.getElementById("error");
+  Toastify({
+    text: "Por favor, ingresa un año de auto válido.",
+    duration: 3000,
+    newWindow: true,
+    close: true,
+    gravity: "top",
+    position: "left",
+    stopOnFocus: true,
+    style: {
+      background: "#f47458",
+    },
+    onClick: function () { }
+  }).showToast();
+  return;
   }
 
   // Ocultar los contenedores innecesarios
@@ -207,7 +223,7 @@ function calcularCotizacion() {
     return;
   }
 
-  const precioBase = preciosBase[marca][modelo];
+  const precioBase = datosMarcasYModelos.preciosBase[marca][modelo];
   let coeficienteEdad = 1;
 
   // Definir el rango de edad
@@ -215,7 +231,7 @@ function calcularCotizacion() {
     coeficienteEdad = 1.5;
   } else if (edad >= 25 && edad < 60) {
     coeficienteEdad = 1;
-  } else if (edad >= 60) {
+  } else if (edad >= 60 && edad <= 100) {
     coeficienteEdad = 1.3;
   } else {
     const errorContainer = document.getElementById("error");
