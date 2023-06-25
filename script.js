@@ -95,44 +95,19 @@ function mostrarDatosPersonales() {
   // Verificar que los campos de datos del auto estén completos
   if (!marca || !modelo || !anio) {
     const error = document.getElementById("error");
-    Toastify({
-      text: "Por favor completa los datos del auto",
-      duration: 3000,
-      newWindow: true,
-      close: true,
-      gravity: "top", 
-      position: "left", 
-      stopOnFocus: true,
-      style: {
-        background: "#f47458",
-      },
-      onClick: function(){} 
-    }).showToast();
-    return;
+    mostrarError("Por favor completa todos los datos del auto.");
+    return false;
   }
 
   // Obtener el año del auto ingresado por el usuario
   const anioAuto = parseInt(document.getElementById('anio').value);
 
-  // Validar si el año es válido
-  const currentYear = new Date().getFullYear();
-  if (isNaN(anioAuto) || anioAuto < 1800 || anioAuto > currentYear) {
-  const errorContainer = document.getElementById("error");
-  Toastify({
-    text: "Por favor, ingresa un año de auto válido.",
-    duration: 3000,
-    newWindow: true,
-    close: true,
-    gravity: "top",
-    position: "left",
-    stopOnFocus: true,
-    style: {
-      background: "#f47458",
-    },
-    onClick: function () { }
-  }).showToast();
-  return;
-  }
+ // Validar si el año es válido
+ const currentYear = new Date().getFullYear();
+ if (isNaN(anio) || anio < 1800 || anio > currentYear) {
+   mostrarError("Por favor ingresa un año de auto válido");
+   return false;
+ }
 
   // Ocultar los contenedores innecesarios
   document.getElementById("datosPersonales").style.display = "block";
@@ -207,20 +182,31 @@ function calcularCotizacion() {
   // Verificar que todos los campos estén completos
   if (!marca || !modelo || !anio || !edad || !nombre || !apellido || !email) {
     const error = document.getElementById("error");
-    Toastify({
-      text: "Por favor completa todos los datos",
-      duration: 3000,
-      newWindow: true,
-      close: true,
-      gravity: "top", 
-      position: "left", 
-      stopOnFocus: true,
-      style: {
-        background: "#f47458",
-      },
-      onClick: function(){} 
-    }).showToast();
-    return;
+    mostrarError("Por favor completa todos los datos.");
+    return false;
+  }  
+
+  // Validar el formato del correo electrónico
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    const errorContainer = document.getElementById("error");
+    mostrarError("Por favor ingresa un correo electrónico válido.");
+    return false;
+  }
+
+  // Validar que el nombre y apellido sean palabras corrientes
+  const nombreApellidoRegex = /^[A-Za-z\s]+$/;
+  if (!nombreApellidoRegex.test(nombre) || !nombreApellidoRegex.test(apellido)) {
+    const error = document.getElementById("error");
+    mostrarError("Por favor ingrsa un nombre y apellido válido.");
+    return false;
+  }
+
+  // Validar que el año no sea mayor al año actual
+  const anioActual = new Date().getFullYear();
+  if (anio > anioActual) {
+     mostrarError("El año ingresado no puede ser mayor al año actual");
+    return false;
   }
 
   const precioBase = datosMarcasYModelos.preciosBase[marca][modelo];
@@ -235,40 +221,8 @@ function calcularCotizacion() {
     coeficienteEdad = 1.3;
   } else {
     const errorContainer = document.getElementById("error");
-    Toastify({
-      text: "La edad debe ser mayor o igual a 18 años",
-      duration: 3000,
-      newWindow: true,
-      close: true,
-      gravity: "top", 
-      position: "left", 
-      stopOnFocus: true,
-      style: {
-        background: "#f47458",
-      },
-      onClick: function(){} 
-    }).showToast();
-    return;
-  }
-
-  // Validar que el año no sea mayor al año actual
-  const anioActual = new Date().getFullYear();
-  if (anio > anioActual) {
-    const error = document.getElementById("error");
-    Toastify({
-      text: "El año ingresado no puede ser mayor al año actual",
-      duration: 3000,
-      newWindow: true,
-      close: true,
-      gravity: "top", 
-      position: "left", 
-      stopOnFocus: true,
-      style: {
-        background: "#f47458",
-      },
-      onClick: function(){} 
-    }).showToast();
-    return;
+    mostrarError("La edad debe ser mayor o igual a 18 años.");
+    return false;
   }
 
   // Definir antigüedad del auto
@@ -283,20 +237,8 @@ function calcularCotizacion() {
     coeficienteAnio = 1;
   } else {
     const error = document.getElementById("error");
-    Toastify({
-      text: "El año debe ser valido",
-      duration: 3000,
-      newWindow: true,
-      close: true,
-      gravity: "top", 
-      position: "left", 
-      stopOnFocus: true,
-      style: {
-        background: "#f47458",
-      },
-      onClick: function(){} 
-    }).showToast();
-    return;
+    mostrarError("El año debe ser válido.");
+    return false;
   }
 
   // Cotizacion final
@@ -353,8 +295,24 @@ function calcularCotizacion() {
       onClick: function () { }
     }).showToast();
   };
-  
 
+  function mostrarError(mensaje) {
+    const error = document.getElementById("error");
+    Toastify({
+      text: mensaje,
+      duration: 3000,
+      newWindow: true,
+      close: true,
+      gravity: "top",
+      position: "left",
+      stopOnFocus: true,
+      style: {
+        background: "#f47458",
+      },
+      onClick: function () {}
+    }).showToast();
+  }
+  
   // Mostrar el contenedor de las cotizaciones anteriores
   document.getElementById("CotizacionesAnteriores").style.display = "block";
 
