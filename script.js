@@ -267,6 +267,12 @@ function calcularCotizacion() {
   
     // Limpiar las cotizaciones anteriores
     cotizacionesAnterioresContainer.innerHTML = "";
+
+    // Verificar si hay cotizaciones anteriores
+    if (cotizacionesAnteriores.length === 0) {
+      mostrarError("No hay cotizaciones anteriores");
+      return;
+    }
   
     // Mostrar las últimas 3 cotizaciones
     const ultimasCotizaciones = cotizacionesAnteriores.slice(-3);
